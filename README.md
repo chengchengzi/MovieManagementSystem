@@ -62,7 +62,7 @@
 ## 实现效果图
 
 - 登陆界面
-	![登陆界面](ShowImage/login.png)
+	![登陆界面](ShowImages/login.png)
 - 影城售票的主界面图
 	![主界面图](ShowImages/mainPage.png)
 
