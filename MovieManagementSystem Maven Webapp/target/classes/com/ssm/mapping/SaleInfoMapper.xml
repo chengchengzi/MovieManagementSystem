@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.ssm.dao.SaleInfoDAO" >
+
+  <resultMap id="SaleInfoResultMap" type="com.ssm.pojo.SaleInfo" >
+    <id column="sale_info_id" property="sale_info_id" jdbcType="INTEGER" />
+    <result column="sale_info_time" property="sale_info_time"/>
+    <result column="film_id" property="film_id" jdbcType="INTEGER" />
+    <result column="film_hall_id" property="film_hall_id" jdbcType="INTEGER" />
+    <result column="sale_info_location" property="sale_info_location" jdbcType="VARCHAR" />
+	<result column="sale_info_showtime" property="sale_info_showtime"/>
+	<result column="sale_info_type" property="sale_info_type" jdbcType="VARCHAR"/>
+	<result column="sale_info_price" property="sale_info_price" jdbcType="FLOAT"/>
+  </resultMap>
+  
+  
+  <!-- 分页查询售票信息SQL语句 -->
+  <select id="selectSaleInfoByPage" resultMap="SaleInfoResultMap" >
+  	select * from sale_info limit #{startPos},#{pageSize}
+  </select>
+  
+  <!-- 取得记录的总条数 -->
+  <select id="getSaleInfoCount" resultType="long">
+  	select count(*) from sale_info
+  </select>
+  
+   <!-- 根据Id进行查询-->
+  <select id="querySaleInfoById" resultMap="SaleInfoResultMap" parameterType="java.lang.Integer"> 
+  	 select * from sale_info where sale_info_id = #{sale_info_id}
+  </select>
+  
+  <!-- 根据id删除售票信息 -->
+  <delete id="deleteSaleInfoById" parameterType="java.lang.Integer">
+  	delete from sale_info
+    where sale_info_id = #{sale_info_id,jdbcType=INTEGER}
+  </delete>
+  
+  <!-- 批量删除 -->
+  <delete id="deleteSaleInfoByBatch" parameterType="java.lang.Integer">
+  	delete from sale_info where sale_info_id in
+  	<foreach item="sale_info_ids" collection="array" open="(" separator="," close=")">
+  		#{sale_info_ids}
+  	</foreach>
+  </delete>
+  
+  <!-- 新增售票信息 -->
+  <insert id="insertSaleInfo" parameterType="com.ssm.pojo.SaleInfo">
+  	insert into sale_info (sale_info_id, sale_info_time,film_id,film_hall_id,sale_info_location,sale_info_showtime,sale_info_type,sale_info_price)
+    values (#{sale_info_id},#{sale_info_time},#{film_id},#{film_hall_id},#{sale_info_location},#{sale_info_showtime},#{sale_info_type},#{sale_info_price})
+  </insert>
+  	
+</mapper>

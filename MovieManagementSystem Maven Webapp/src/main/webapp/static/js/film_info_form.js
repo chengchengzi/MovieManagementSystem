@@ -1,0 +1,39 @@
+//新增影城表单验证js 
+//及时验证用户名
+ function checkshow_plan_id(){
+   //在每个函数中定义check变量是为了在表单提交后，能够逐个验证每个函数是否通过，很好很好。（以下同理）
+   var check; 
+   var id = document.getElementById("show_plan_id").value; 
+   if (id == "") { 
+    alert("放映计划编号不可为空");
+    //此处甚妙，既然你在此处输入错误，那么按理说当然要在此处继续输入了。（在此处继续获取焦点！）
+    document.getElementById("show_plan_id").focus();
+    check = false; 
+   } else if(film_id){ 
+    check = true;
+   } 
+   return check; 
+  } 
+function checkfilm_show_time(){
+	   //在每个函数中定义check变量是为了在表单提交后，能够逐个验证每个函数是否通过，很好很好。（以下同理）
+	   var check; 
+	   var film_show_time = document.getElementById("film_show_time").value; 
+	   if (film_show_time == "") { 
+	    alert("上映时间不可为空");
+	    //此处甚妙，既然你在此处输入错误，那么按理说当然要在此处继续输入了。（在此处继续获取焦点！）
+	    document.getElementById("film_show_time").focus();
+	    check = false; 
+	   } else { 
+	    check = true; 
+	   } 
+	   return check; 
+	  }
+
+ //提交表单时所有都验证一遍(若任何一个验证不通过，则返回为false，阻止表单提交)
+ function check() { 
+  var check = checkshow_plan_id() && checkfilm_show_time(); 
+  if(check == true){
+  	return check;
+  }
+  return check;
+ }

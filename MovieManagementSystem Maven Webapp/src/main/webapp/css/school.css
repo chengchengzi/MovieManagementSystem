@@ -1,0 +1,147 @@
+	*{
+		margin: 0;
+		padding: 0;
+	}
+	body{
+		background: #fff;
+	}
+
+    .bg{
+        background-size: cover;
+        background-position: center;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        filter: blur(4px);
+        position: absolute;
+    }
+    .shadow{
+        background-color: rgba(0, 0, 0, 0.6);
+        width: 100%;
+        height: 100%;
+        top: 0;
+        filter: blur(4px);
+        position: absolute;
+    }
+
+	ul{
+		list-style: none;
+	}
+	a{
+		text-decoration: none;
+	}
+    .banner{
+		background: #fff;
+		width: 1000px;
+		height: 560px;
+        	margin:0 auto;
+		font-size: 40px;
+		margin-bottom: 5px;
+        position: relative;
+	}
+	.box{
+		margin: 0 auto;
+		width: 1000px;
+        position: relative;
+	}
+
+	.fl_l{
+		width:165px;
+		float:left;
+        border:2px solid #07317b;
+        display:none;
+	}
+
+	.fl_l li a{
+		border-bottom: 2px solid #07317b;
+		line-height:40px;
+		text-align: center;
+		display: block;
+		color:white;
+		font-size: 14px;
+	}
+	
+	.fl_l li.active a{
+		background: #07317b;
+		color: #fff;
+		text-shadow:2px 1px rgba(0,0,0,0.5);
+	}
+	
+	.fl_r{
+        height:auto;
+        position:absolute;
+	}
+
+	.fl_r li{
+		margin-bottom: 2px;
+		font-size: 50px;
+		display: block;
+	}
+
+    .fl_r li .flrDiv {
+        position:relative;
+    }
+
+    .fl_r li .flrDiv .flrDivContent {
+        width:1000px;
+        margin:0 auto;
+        background-color:#fff;
+        position:relative;
+    }
+	.job{	
+		font-size:15px;
+		color:black;
+		display:inline;
+		float:left;
+		height:200px;
+		border-radius:15px;
+	}
+	.job.divOne{
+		border-left:3px solid red;
+		border-top:3px solid red;
+		margin-left:30px;
+		font-weight:bold;
+		margin-top:10px;
+		padding-left:10px;
+		
+	}
+	.job.divTwo{
+		border-top:3px solid green;
+		margin-left:20px;
+		margin-top:10px;
+		font-weight:bold;
+		padding-left:10px;
+	}
+	.job.divThree{
+		border-top:3px solid yellow;
+		border-right:3px solid yellow;
+		margin-left:20px;
+		font-weight:bold;
+		margin-top:10px;
+		padding-left:10px;
+	}
+	.job.divfour{
+		border-bottom:3px solid grey;
+		border-left:3px solid grey;
+		margin-left:30px;
+		margin-top:10px;
+		padding-left:10px;
+		font-weight:bold;
+	}
+	.job.divfive{
+		border-bottom:3px solid orange;
+		border-right:3px solid orange;
+		margin-left:20px;
+		margin-top:10px;
+		font-weight:bold;
+		padding-left:10px;
+	}		
+	.divfive p{
+		text-indent:10em;
+		margin-top:10px;
+		font-size:15px;
+		font-weight:bold;
+	}
+	.image1,.image5,.image9{
+		margin-left:30px;
+	}

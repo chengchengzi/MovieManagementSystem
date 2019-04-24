@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.ssm.dao.SeatShowPlanDAO" >
+
+  <resultMap id="SeatShowPlanResultMap" type="com.ssm.pojo.SeatShowPlan" >
+    <id column="show_plan_id" property="show_plan_id" jdbcType="INTEGER" />
+    <result column="film_hall_id" property="film_hall_id" jdbcType="INTEGER"  />
+    <result column="temp_seat" property="temp_seat" jdbcType="VARCHAR" />
+  	<result column="sale_out_seat" property="sale_out_seat" jdbcType="VARCHAR" />
+  </resultMap>
+   
+   <!-- 根据放映计划编号查询 -->
+   <select id="querySeatShowPlanByShowPlanId" resultMap="SeatShowPlanResultMap" parameterType="java.lang.Integer">
+   		select * from seat_show_plan where show_plan_id = #{show_plan_id}
+   </select>
+  
+  <!-- 保存已售出座位信息 -->
+  <update id="saveSeat">
+  	update seat_show_plan set sale_out_seat = #{sale_out_seat} where show_plan_id = #{show_plan_id}
+  </update>
+  
+  
+  
+  	
+</mapper>

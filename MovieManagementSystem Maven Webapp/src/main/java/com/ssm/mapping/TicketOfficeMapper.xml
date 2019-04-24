@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.ssm.dao.TicketOfficeDAO" >
+
+  <resultMap id="TicketOfficeResultMap" type="com.ssm.pojo.TicketOffice" >
+    <id column="ticket_office_id" property="ticket_office_id" jdbcType="INTEGER" />
+    <result column="ticket_office_time" property="ticket_office_time"/>
+    <result column="film_id" property="film_id" jdbcType="INTEGER" />
+    <result column="ticket_office_numbers" property="ticket_office_numbers" jdbcType="INTEGER"/>
+    <result column="ticket_office_totalprice" property="ticket_office_totalprice" jdbcType="DOUBLE" />
+  	
+  	<association property="filmInfo" javaType="com.ssm.pojo.FilmInfo">
+    	<id column="film_id" property="film_id"/>
+    	<result column="film_name" property="film_name"/>
+    </association>
+  	
+  </resultMap>
+   
+   <!-- 取得总记录数 -->
+  <select id="getCount" resultType="long">
+  	select count(*) from ticket_office
+  </select>
+  
+  <!-- 分页查询 -->
+  <select id="queryAllByPage" resultMap="TicketOfficeResultMap" >
+  	select ticket_office_id,ticket_office_time,ticket_office.film_id,film_info.film_name,ticket_office_numbers,ticket_office_totalprice
+  	from ticket_office left join film_info on ticket_office.film_id = film_info.film_id limit #{startPos},#{pageSize}
+  </select>
+  
+  <!-- 根据id查询 -->
+  <select id="queryTicketOfficeById" resultMap="TicketOfficeResultMap" parameterType="java.lang.Integer">
+  	 select * from ticket_office where ticket_office_id = #{ticket_office_id}
+  </select>
+  
+  <!-- 根据id单条删除 -->
+  <delete id="deleteTicketOfficeById" parameterType="java.lang.Integer">
+  	delete from ticket_office
+    where ticket_office_id = #{ticket_office_id,jdbcType=INTEGER}
+  </delete>
+  
+  <!-- 根据id批量删除 -->
+  <delete id="deleteTicketOfficeByBatch" parameterType="java.lang.Integer">
+  	delete from ticket_office where ticket_office_id in
+  	<foreach item="ticketOfficeId" collection="array" open="(" separator="," close=")">
+  		#{ticketOfficeId}
+  	</foreach>
+  </delete>
+  
+  <!-- 根据影片编号查询影片名称 -->
+  <select id="queryFilmNameByFilmId" resultType="java.lang.String" >
+  	select film_name from film_info where film_id = #{film_id}
+  </select>
+  
+  <!-- 根据影片编号查询取得售票信息表当天的售票数量 -->
+  <select id="getCountByFilmIdAndOnTime" resultType="long"> 
+  	select count(*) from sale_info 
+  	where film_id = #{film_id} 
+  	and to_days(sale_info_time) = to_days(now())
+  </select>
+  
+  <!-- 根据影片编号查询取得售票信息表当天的总票房 -->
+  <select id="TotalPriceByFilmIdAndOnTime" resultType="double">
+  	select sum(sale_info_price) from sale_info 
+  	where film_id = #{film_id} 
+  	and to_days(sale_info_time) = to_days(now())
+  </select>
+  
+  
+  <!-- 根据影片编号查询取得售票信息表本周的售票数量 -->
+  <select id="getCountByFilmIdAndWeek" resultType="long">
+  	select count(*) from sale_info 
+  	WHERE YEARWEEK(date_format(sale_info_time,'%Y-%m-%d')) = YEARWEEK(now()) 
+  	and film_id = #{film_id};
+  </select>
+  
+  <!-- 根据影片编号查询取得售票信息表本周的总票房 -->
+  <select id="TotalPriceByFilmIdAndWeek" resultType="double">
+  	select sum(sale_info_price) 
+  	from sale_info 
+  	WHERE YEARWEEK(date_format(sale_info_time,'%Y-%m-%d')) = YEARWEEK(now()) 
+  	and film_id = #{film_id};
+  </select>
+  
+  <!-- 根据影片编号查询取得售票信息表本月的售票数量 -->
+  <select id="getCountByFilmIdAndMonth" resultType="long">
+  		SELECT count(*) FROM sale_info 
+  		WHERE film_id = #{film_id}  
+  		and DATE_FORMAT(sale_info_time, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' );
+  </select>
+  
+  <!-- 根据影片编号查询取得售票信息表本月的总票房 -->
+  <select id="TotalPriceByFilmIdAndMonth" resultType="double">
+  	SELECT sum(sale_info_price) FROM sale_info 
+  		WHERE film_id = #{film_id}  
+  		and DATE_FORMAT(sale_info_time, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' );
+  </select>
+  
+  <!-- 新增一条统计数据 -->
+  <insert id="insertTicketOffice" parameterType="com.ssm.pojo.TicketOffice">
+  		insert into ticket_office values (#{ticket_office_id},#{ticket_office_time},#{film_id},#{ticket_office_numbers},#{ticket_office_totalprice})
+  </insert>
+  	
+  <!-- 根据日期范围查询售票信息表的记录数 -->
+  <select id="getCountByRange" resultType="long">
+  	select count(*) from sale_info 
+  	where film_id = #{film_id}
+  	<if test="from_time!=null and from_time!=''">
+    	<![CDATA[   and DATE_FORMAT(sale_info_time, '%Y-%m-%d')>=  DATE_FORMAT(#{from_time}, '%Y-%m-%d')   ]]>
+	</if>
+	<if test="to_time!=null and to_time!=''">
+    	<![CDATA[  and DATE_FORMAT(sale_info_time, '%Y-%m-%d') <= DATE_FORMAT(#{to_time}, '%Y-%m-%d')    ]]>
+	</if>
+
+  </select>
+  
+  <!-- 根据日期范围查询售票信息表的总票房 -->
+  <select id="TotalPriceByRange" resultType="double">
+  	select sum(sale_info_price) from sale_info 
+  	where film_id = #{film_id}
+  	<if test="from_time!=null and from_time!=''">
+    	<![CDATA[   and DATE_FORMAT(sale_info_time, '%Y-%m-%d')>=  DATE_FORMAT(#{from_time}, '%Y-%m-%d')   ]]>
+	</if>
+	<if test="to_time!=null and to_time!=''">
+    	<![CDATA[  and DATE_FORMAT(sale_info_time, '%Y-%m-%d') <= DATE_FORMAT(#{to_time}, '%Y-%m-%d')    ]]>
+	</if>
+
+  </select>
+</mapper>

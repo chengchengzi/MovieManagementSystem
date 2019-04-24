@@ -1,0 +1,171 @@
+/*ËÑË÷¿ò*/
+.searchBox{
+	border-radius:5px;
+	height:25px;
+	width:170px;
+	margin: 0px;
+	padding:0px;
+	border:1px solid #a5b6c8;
+	font-size: 16px;
+	color: #2F4F4F;
+	text-indent: 25px;
+	outline: none;
+}
+
+.searchSubmit{
+	width: 50px;
+	height: 25px;
+	border:1px solid #BDB76B;
+	background:#F0FFFF;
+	border-radius:25px;
+	font-size: 16px;
+	color: #2F4F4F;
+}
+.management_btn{
+	width: 45px;
+	height: 20px;
+	background:#778899;
+	border:none;
+	border-radius:25px;
+	font-size: 13px;
+	color: #fff;
+}
+.batch_del_btn{
+	border:1px solid #BDB76B;
+	font-family:KaiTi;
+	font-size: 20px;
+	border-radius:25px;
+	text-decoration: none;
+	background-color:#F0FFFF;
+	color:#2F4F4F;
+}
+.add_a_link{
+	border:1px solid #BDB76B;
+	font-family:KaiTi;
+	font-size: 20px;
+	border-radius:25px;
+	text-decoration: none;
+	background-color:#F0FFFF;
+	color:#2F4F4F;
+}
+#all{
+	position: relative;
+	top:-60px;
+}
+.xyInput{
+	border-radius:5px;
+	height:25px;
+	width:170px;
+	margin: 0px;
+	padding:0px;
+	border:1px solid #a5b6c8;
+	font-size: 16px;
+	color: #c1c1c1;
+	text-indent: 25px;
+	outline: none;
+}
+#sortSubmit{
+	width: 50px;
+	height: 25px;
+	border:1px solid #BDB76B;
+	background:#F0FFFF;
+	border-radius:25px;
+	font-size: 16px;
+	color: #2F4F4F;
+	position: relative;
+	left:20px;
+	top:10px;
+}
+#saveSort{
+	width: 50px;
+	height: 25px;
+	border:1px solid #BDB76B;
+	background:#F0FFFF;
+	border-radius:25px;
+	font-size: 16px;
+	color: #2F4F4F;
+	position: relative;
+	left:80px;
+	top:-30px;
+}
+.inputBox{
+	border-radius:5px;
+	height:35px;
+	width:200px;
+	margin-top:10px;
+	padding:0px;
+	border:1px solid #a5b6c8;
+	font-size: 16px;
+	color: #2F4F4F;
+	text-indent: 25px;
+	outline: none;
+}
+.title{
+	position:relative;
+	left:40px;
+	top:10px;
+	font-family: KaiTi;
+}
+.edit_table{
+	position: relative;
+	left:450px;
+	top:10px;
+	
+}
+.tr_title{
+	text-align: center;
+}
+.editSubmit{
+	width: 80px;
+	height: 25px;
+	border:1px solid #BDB76B;
+	background:#F0FFFF;
+	border-radius:25px;
+	font-size: 16px;
+	color: #2F4F4F;
+	margin-right:5px;
+	position: relative;
+	left:20px;
+	top:10px;
+}
+.line_hr{
+	height:1px;
+	border:none;
+	border-top:1px groove #F8F8FF;
+}
+#searchSubmitDay{
+	width: 80px;
+	height: 25px;
+	border:1px solid #BDB76B;
+	background:#F0FFFF;
+	border-radius:25px;
+	font-size: 16px;
+	color: #2F4F4F;
+}
+#searchSubmitWeek{
+	width: 80px;
+	height: 25px;
+	border:1px solid #BDB76B;
+	background:#F0FFFF;
+	border-radius:25px;
+	font-size: 16px;
+	color: #2F4F4F;
+}
+#searchSubmitMonth{
+	width: 80px;
+	height: 25px;
+	border:1px solid #BDB76B;
+	background:#F0FFFF;
+	border-radius:25px;
+	font-size: 16px;
+	color: #2F4F4F;
+}
+#btns{
+	position: relative;
+	left:320px;
+	top:-23px;
+}
+#searchRange{
+	position: relative;
+	top:-20px;
+}

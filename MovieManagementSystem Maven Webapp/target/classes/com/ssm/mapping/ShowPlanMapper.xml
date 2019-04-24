@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.ssm.dao.ShowPlanDAO" >
+
+  <resultMap id="ShowPlanResultMap" type="com.ssm.pojo.ShowPlan" >
+    <id column="show_plan_id" property="show_plan_id" jdbcType="INTEGER"/>
+    <result  column="film_id" property="film_id" jdbcType="INTEGER" />
+    <result column="film_hall_id" property="film_hall_id" jdbcType="INTEGER" />
+    <result column="show_time" property="show_time" />
+    <result column="end_time" property="end_time" />
+    <result column="film_price" property="film_price" jdbcType="FLOAT"/>
+    
+    <association property="filmInfo" javaType="com.ssm.pojo.FilmInfo">
+    	<id column="film_id" property="film_id"/>
+    	<result column="film_name" property="film_name"/>
+    	<result column="film_duration" property="film_duration"/>
+    </association>
+    
+    <association property="filmHallInfo" javaType="com.ssm.pojo.FilmHallInfo">
+    	<id column="film_hall_id" property="film_hall_id"/>
+    	<result column="film_hall_type" property="film_hall_type"/>
+    	<result column="film_hall_seat" property="film_hall_seat"/>
+    </association>
+  </resultMap>
+    
+  <!-- 取得记录的总条数 -->
+  <select id="getShowPlanCount" resultType="long">
+  	select count(*) from show_plan
+  </select>
+  
+  <!-- 分页查询 -->
+  <select id="queryShowPlanByPage" resultMap="ShowPlanResultMap" >
+  	<!-- select show_plan.film_id,film_info.film_name,film_hall_id,show_time from show_plan,film_info 
+  	where show_plan.film_id = film_info.film_id order by show_plan.film_id asc limit #{startPos},#{pageSize} -->
+  	 select show_plan_id,show_plan.film_id,film_info.film_name,film_hall_id,show_time,end_time,film_price from show_plan 
+  	 left join film_info on show_plan.film_id = film_info.film_id limit #{startPos},#{pageSize}
+  </select>
+  
+  <!-- 根据Id进行查询-->
+  <select id="queryShowPlanById" resultMap="ShowPlanResultMap" parameterType="java.lang.Integer"> 
+  	 select * from show_plan where show_plan_id = #{show_plan_id}
+  </select>
+  
+  <!-- 不分页查询所有放映计划 -->
+  <select id="queryAllShowPlan" resultMap="ShowPlanResultMap">
+    select * from show_plan
+  </select>
+  
+  <!-- 根据id单个删除 -->
+  <delete id="deleteShowPlanById" parameterType="java.lang.Integer">
+  	delete from show_plan
+    where show_plan_id = #{show_plan_id,jdbcType=INTEGER}
+  </delete>
+  
+  <!-- 批量删除 -->
+  <delete id="deleteShowPlanByBatch" parameterType="java.lang.Integer">
+  	delete from show_plan where show_plan_id in
+  	<foreach item="showPlanIds" collection="array" open="(" separator="," close=")">
+  		#{showPlanIds}
+  	</foreach>
+  </delete>
+  
+   <!-- 新增放映计划 -->
+  <insert id="addShowPlan" parameterType="com.ssm.pojo.ShowPlan" >
+    insert into show_plan (show_plan_id, film_id, film_hall_id,show_time,film_price)
+    values (#{show_plan_id}, #{film_id}, #{film_hall_id},#{show_time},#{film_price})
+  </insert>
+  
+  <!-- 修改影片信息 -->
+  <update id="updateShowPlan" parameterType="com.ssm.pojo.ShowPlan">
+     update show_plan show_plan join film_info on show_plan.film_id=film_info.film_id
+    set 
+    <if test="film_id != null" >
+        show_plan.film_id = #{film_id,jdbcType=INTEGER},
+    </if>
+    <if test="film_hall_id != null" >
+       film_hall_id = #{film_hall_id,jdbcType=INTEGER},
+    </if>
+    <if test="show_time != null" >
+       show_time = #{show_time},
+       end_time=date_add(show_time,interval film_duration minute),
+    </if>
+    <if test="film_price != null" >
+       film_price = #{film_price}
+    </if>
+    where show_plan_id = #{show_plan_id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 分页根据Id查询符合条件总记录数 -->
+  <select id="getShowPlanCountById" resultType="long" parameterType="java.lang.Integer">
+  	select count(*) from show_plan where show_plan.film_id = #{film_id}
+  </select>
+  
+  <!-- 分页根据id查询所有符合条件的放映计划-->
+  <select id="queryShowPlanByIdPage" resultMap="ShowPlanResultMap">
+    select show_plan_id,show_plan.film_id,film_info.film_name,film_hall_id,show_time,end_time,film_price from show_plan,film_info 
+    where show_plan.film_id = film_info.film_id 
+    and show_plan.film_id = #{film_id} limit #{startPos},#{pageSize}
+  </select>
+  
+  <!-- 根据影片id不分页查询 -->
+  <select id="queryShowPlanByFilmId" resultMap="ShowPlanResultMap">
+  	select show_plan_id,show_plan.film_id,film_hall_id,show_time,end_time,film_price from show_plan 
+    where show_plan.film_id = #{film_id}
+  </select>
+  
+  <!-- 根据观影时间查询 -->
+  <select id="queryShowPlanByShowTime" resultMap="ShowPlanResultMap">
+  	select show_plan_id,show_plan.film_hall_id,film_hall_type,show_time,end_time,film_price from show_plan,film_hall_info 
+  	where 
+  	show_plan.film_hall_id = film_hall_info.film_hall_id 
+  	and show_time like CONCAT('%',#{date},'%')
+  	and film_id = #{film_id}; 
+  </select>
+  
+  <!-- 每一次新增放映计划都更新一次结束时间 -->
+  <update id="updateShowPlanEndTime">
+  	update show_plan join film_info on show_plan.film_id=film_info.film_id 
+  	set 
+  	end_time=date_add(show_time,interval film_duration minute) 
+  	where show_plan.film_id = film_info.film_id;
+  </update>
+  
+  <!-- 每次新增放映计划或者修改放映影厅时设置相应影厅的座位字符串 -->
+	<insert id="insertSeatShowPlanSeat" parameterType="com.ssm.pojo.ShowPlan">
+		insert seat_show_plan(show_plan_id,film_hall_id,temp_seat) 
+		select 
+		show_plan_id,show_plan.film_hall_id,film_hall_seat 
+		from show_plan,film_hall_info 
+		where 
+		show_plan.show_plan_id = #{show_plan_id}
+		and show_plan.film_hall_id = film_hall_info.film_hall_id;
+	</insert>
+	
+	<!-- 删除放映计划时删除相应的影厅的座位场次表 -->
+	<!-- 根据id单个删除 -->
+  <delete id="deleteSeatShowPlanById" parameterType="java.lang.Integer">
+  	delete from seat_show_plan
+    where show_plan_id = #{show_plan_id,jdbcType=INTEGER}
+  </delete>
+  
+  <!-- 批量删除 -->
+  <delete id="deleteSeatShowPlanByBatch" parameterType="java.lang.Integer">
+  	delete from seat_show_plan where show_plan_id in
+  	<foreach item="showPlanIds" collection="array" open="(" separator="," close=")">
+  		#{showPlanIds}
+  	</foreach>
+  </delete>
+  
+  <!-- 更新座位场次表的影厅号 -->
+  <update id="updateSeatShowPlanByFilmHallId" parameterType="com.ssm.pojo.ShowPlan">
+  	  update seat_show_plan set film_hall_id = #{film_hall_id} where show_plan_id = #{show_plan_id,jdbcType=INTEGER};
+  </update>
+  
+  <!-- 根据更新的影厅号更新座位场次表的座位字符串 -->
+  <update id="updateSeatShowPlanByTempSeat" parameterType="com.ssm.pojo.ShowPlan">
+  	update seat_show_plan join film_hall_info on 
+  	seat_show_plan.film_hall_id = film_hall_info.film_hall_id 
+  	and show_plan_id = #{show_plan_id}
+  	set temp_seat = film_hall_seat
+  </update>
+  
+  <!--  根据电影id、放映时间查询放映计划编号 -->
+  <select id="queryShowPlanByFilmIdAndFilmShowTime" resultType="Integer">
+  	 select show_plan_id from show_plan 
+  	 where 
+  	 film_id = #{film_id} 
+  	 and show_time like CONCAT(#{show_time},'%')
+  </select>
+
+</mapper>

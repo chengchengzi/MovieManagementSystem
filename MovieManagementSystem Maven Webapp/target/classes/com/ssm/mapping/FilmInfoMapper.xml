@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.ssm.dao.FilmInfoDAO" >
+
+  <resultMap id="FilmInfoResultMap" type="com.ssm.pojo.FilmInfo" >
+    <id column="film_id" property="film_id" jdbcType="INTEGER" />
+    <result column="film_name" property="film_name" jdbcType="VARCHAR" />
+    <result column="film_dirctor" property="film_dirctor" jdbcType="VARCHAR" />
+    <result column="film_major" property="film_major" jdbcType="VARCHAR" />
+    <result column="film_type" property="film_type" jdbcType="VARCHAR" />
+    <result column="film_show_time" property="film_show_time" />
+    <result column="film_duration" property="film_duration" jdbcType="VARCHAR" />
+	<result column="film_brife" property="film_brife" jdbcType="VARCHAR" />
+  	<result column="film_pic" property="film_pic" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <!-- 取得记录的总条数 -->
+  <select id="getFilmInfoCount" resultType="long">
+  	select count(*) from film_info
+  </select>
+  
+   <!-- 分页查询影片信息SQL语句 -->
+  <select id="selectFilmInfoByPage" resultMap="FilmInfoResultMap" >
+  	select * from film_info limit #{startPos},#{pageSize}
+  </select>
+  
+  <!-- 根据id查询影片信息 -->
+  <select id="queryFilmInfoById" resultMap="FilmInfoResultMap" parameterType="java.lang.Integer">
+  	 select * from film_info where film_id = #{film_id}
+  </select>
+  
+  <!-- 新增影片 -->
+  <insert id="addFilmInfo" parameterType="com.ssm.pojo.FilmInfo" >
+    insert into film_info (film_id, film_name, film_major,film_dirctor,film_type,film_show_time,film_duration,film_brife,film_pic)
+    values (#{film_id}, #{film_name}, #{film_major},#{film_dirctor},#{film_type},#{film_show_time},#{film_duration},#{film_brife},#{film_pic})
+  </insert>
+  
+  <!-- 根据id删除影片 -->
+  <delete id="deleteFilmInfoById" parameterType="java.lang.Integer">
+  	delete from film_info
+    where film_id = #{film_id,jdbcType=INTEGER}
+  </delete>
+  
+  <!-- 根据id批量删除影厅 -->
+  <delete id="deleteFilmInfoByBatch" parameterType="java.lang.Integer">
+  	delete from film_info where film_id in
+  	<foreach item="filmInfoId" collection="array" open="(" separator="," close=")">
+  		#{filmInfoId}
+  	</foreach>
+  </delete>
+  
+   <!-- 分页根据影片名称模糊查询 -->
+  <select id="fuzzySelectFilmInfoByName" resultMap="FilmInfoResultMap">
+  	select * from film_info where film_name like CONCAT('%',#{film_name},'%')
+  </select>
+  
+  <!-- 修改影片信息 -->
+  <update id="updateFilmInfo" parameterType="com.ssm.pojo.FilmInfo">
+    update film_info
+    set film_name = #{film_name,jdbcType=VARCHAR},
+      film_major = #{film_major,jdbcType=VARCHAR},
+      film_dirctor = #{film_dirctor,jdbcType=VARCHAR},
+       <if test="film_type != null" >
+        film_type = #{film_type,jdbcType=VARCHAR},
+      </if>
+      film_show_time = #{film_show_time},
+      film_duration = #{film_duration,jdbcType=VARCHAR},
+      <if test="film_brife != null" >
+          film_brife = #{film_brife,jdbcType=VARCHAR},
+      </if>
+      <if test="film_pic != null" >
+          film_pic = #{film_pic,jdbcType=VARCHAR}
+      </if>
+    where film_id = #{film_id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 查询所有影片信息-->
+  <select id="queryAllFilmInfo" resultMap="FilmInfoResultMap">
+    select * from film_info
+  </select>
+  
+</mapper>

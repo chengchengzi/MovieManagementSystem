@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.ssm.dao.FilmHallInfoDAO" >
+
+  <resultMap id="FilmHallInfoResultMap" type="com.ssm.pojo.FilmHallInfo" >
+    <id column="film_hall_id" property="film_hall_id" jdbcType="INTEGER" />
+    <result column="film_hall_location" property="film_hall_location" jdbcType="VARCHAR" />
+    <result column="film_hall_type" property="film_hall_type" jdbcType="VARCHAR" />
+  	<result column="film_hall_numbers" property="film_hall_numbers" jdbcType="INTEGER" />
+    <result column="film_hall_seat" property="film_hall_seat" jdbcType="VARCHAR" />
+  </resultMap>
+   
+  <!--新增影厅-->
+  <insert id="addFilmHall" parameterType="com.ssm.pojo.FilmHallInfo" >
+    insert into film_hall_info (film_hall_id, film_hall_location, film_hall_type,film_hall_numbers)
+    values (#{film_hall_id,jdbcType=INTEGER}, #{film_hall_location,jdbcType=VARCHAR}, #{film_hall_type,jdbcType=VARCHAR}, 
+      #{film_hall_numbers,jdbcType=INTEGER})
+  </insert>
+  
+  <!-- 根据id删除影厅 -->
+  <delete id="deleteFilmHallById" parameterType="java.lang.Integer">
+  	delete from film_hall_info
+    where film_hall_id = #{film_hall_id,jdbcType=INTEGER}
+  </delete>
+  
+  <!-- 根据id批量删除影厅 -->
+  <delete id="deleteFilmHallByBatch" parameterType="java.lang.Integer">
+  	delete from film_hall_info where film_hall_id in
+  	<foreach item="filmHallId" collection="array" open="(" separator="," close=")">
+  		#{filmHallId}
+  	</foreach>
+  </delete>
+  
+  <!-- 根据Id进行查询-->
+  <select id="queryFilmHallByfilmHallId" resultMap="FilmHallInfoResultMap" parameterType="java.lang.Integer"> 
+  	 select * from film_hall_info where film_hall_id = #{film_hall_id}
+  </select>
+  
+  <!-- 查询所有影厅信息-->
+  <select id="queryAllFilmHall" resultMap="FilmHallInfoResultMap">
+    select * from film_hall_info
+  </select>
+  
+  <!-- 修改影厅信息 -->
+  <update id="updateFilmHall" parameterType="com.ssm.pojo.FilmHallInfo">
+    update film_hall_info
+    set 
+    <if test="film_hall_location != null" >
+        film_hall_location = #{film_hall_location,jdbcType=VARCHAR},
+    </if>
+    <if test="film_hall_type != null" >
+        film_hall_type = #{film_hall_type,jdbcType=VARCHAR},
+    </if>
+    <if test="film_hall_numbers != null" >
+       film_hall_numbers = #{film_hall_numbers,jdbcType=INTEGER},
+    </if>
+    film_hall_seat = #{film_hall_seat,jdbcType=VARCHAR} 
+    where film_hall_id = #{film_hall_id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 分页查询影厅信息SQL语句 -->
+  <select id="selectFilmHallByPage" resultMap="FilmHallInfoResultMap" >
+  	select * from film_hall_info limit #{startPos},#{pageSize}
+  </select>
+  
+  <!-- 取得记录的总条数 -->
+  <select id="getFilmHallCount" resultType="long">
+  	select count(*) from film_hall_info
+  </select>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  	
+</mapper>

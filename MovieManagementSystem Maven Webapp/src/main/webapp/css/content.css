@@ -1,0 +1,11 @@
+#welcome{
+	position: relative;
+	top: -15px;
+	font-family: "楷体";
+}
+#content{
+	height:830px;
+	background-color: #F8F8FF;
+	position: relative;
+	top: -30px;	
+}
