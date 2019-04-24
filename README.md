@@ -10,7 +10,7 @@
 
 ## Compiler
 - Win10
-- Myeclipse10 + tomcat 7.0.7 + mysql 5.5.4 或者 Myeclipse2016 + tomcat 8.0 + mysql 5.5.4(软件版本配置可以自行修改）
+- JDK1.6 + Myeclipse10 + tomcat 7.0.7 + mysql 5.5.4 或者 JDK1.8 + Myeclipse2016 + tomcat 8.0 + mysql 5.5.4(软件版本配置可以自行修改）
 	
 ## 选题任务
 
