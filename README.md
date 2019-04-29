@@ -65,5 +65,33 @@
 	![登陆界面](ShowImages/login.png)
 - 影城售票的主界面图
 	![主界面图](ShowImages/mainPage.png)
-
+- 选择放映场次界面
+	![放映场次](ShowImages/选择放映场次.png)
+- 选座界面
+	![选座界面](ShowImages/选座.png)
+- 影片管理界面
+	![影片管理](ShowImages/影片管理.png)
+- 放映计划管理界面
+	![放映计划管理](ShowImages/放映计划管理.png)
+- 修改放映计划界面
+	![修改放映计划](ShowImages/修改放映计划.png)
+- 影片管理界面
+	![影片管理](ShowImages/影片信息管理.png)
+- 修改影片信息界面
+	！[影片管理](ShowImages/影片管理.png)
+	![修改影片信息界面](ShowImages/修改信息.png)
+- 影厅管理界面
+	![影厅管理](ShowImages/影厅管理.png)
+- 影厅排座界面
+	![影厅排座](ShowImages/影厅排座.png)
+- 新增影厅界面
+	![新增影厅](ShowImages/新增影厅.png)
+- 票务管理界面
+	![票务管理](ShowImages/票务管理.png)
+- 报表管理界面
+	![报表管理](ShowImages/报表管理.png)
+- 人员管理界面
+	![人员管理](ShowImages/人员管理.png)
+- 修改密码界面
+	！[修改密码](ShowImages/修改密码.png)
 
