@@ -93,4 +93,4 @@
 - 人员管理界面
 	![人员管理](ShowImages/人员管理.png)
 - 修改密码界面
-	！[修改密码](ShowImages/修改密码.png)
+	![修改密码](ShowImages/修改密码.png)
