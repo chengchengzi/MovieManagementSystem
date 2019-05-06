@@ -65,7 +65,6 @@
 	![登陆界面](ShowImages/login.png)
 - 影城售票的主界面图
 	![主界面图](ShowImages/mainPage.png)
-	<!--
 - 选择放映场次界面
 	![放映场次](ShowImages/选择放映场次.png)
 - 选座界面
@@ -95,5 +94,3 @@
 	![人员管理](ShowImages/人员管理.png)
 - 修改密码界面
 	！[修改密码](ShowImages/修改密码.png)
-
--->
